@@ -97,8 +97,8 @@
 ;;; API
 
 ;;;###autoload
-(defun guard-lf-p ()
-  "Return non-nil if large file is detected."
+(defun guard-lf-p (filename)
+  "Return non-nil if large FILENAMEis detected."
   (or (guard-lf--file-too-large-p filename)
       (guard-lf--line-too-long-p filename)))
 
@@ -113,7 +113,7 @@
 
 Arguments FNC and ARGS are used to call original operations."
   (let* ((filename (car args))
-         (guard-lf--detect-large-file (guard-lf-p)))
+         (guard-lf--detect-large-file (guard-lf-p filename)))
     (apply fnc args)))
 
 (defun guard-lf--set-auto-mode-1 (fnc &rest args)
