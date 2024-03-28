@@ -6,7 +6,7 @@
 ;; Maintainer: JenChieh <jcs090218@gmail.com>
 ;; URL: https://github.com/jcs-elpa/guard-lf
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "26.1"))
+;; Package-Requires: ((emacs "27.1"))
 ;; Keywords: help
 
 ;; This file is not part of GNU Emacs.
@@ -43,6 +43,11 @@
   "Major mode to use when viewing large file."
   :type 'function
   :group 'guard-lf)
+
+(defconst guard-lf-intact-major-modes
+  '( fundamental-mode         ; Already in `fundamental-mode'? Ignore it!
+     special-mode)
+  "Do nothing for these major modes.")
 
 ;;
 ;;; Entry
@@ -117,7 +122,9 @@ Arguments FNC and ARGS are used to call original operations."
 Arguments FNC and ARGS are used to call original operations."
   (when guard-lf--detect-large-file
     (setq guard-lf--detect-large-file nil)  ; Revert back to `nil'
-    (when guard-lf-major-mode
+    (when (and guard-lf-major-mode
+               (not (memq (nth 0 args) guard-lf-intact-major-modes)))
+      (message "[INFO] Large file detected; use the `%s' as the new major mode" guard-lf-major-mode)
       (setf (nth 0 args) guard-lf-major-mode)))
   (apply fnc args))
 
