@@ -109,7 +109,7 @@
   "Set to t if larget file.")
 
 (defun guard-lf--find-file (fnc &rest args)
-  "Advice around `find-file-noselect'.
+  "Advice around the function `find-file-noselect'.
 
 Arguments FNC and ARGS are used to call original operations."
   (let* ((filename (car args))
@@ -117,14 +117,15 @@ Arguments FNC and ARGS are used to call original operations."
     (apply fnc args)))
 
 (defun guard-lf--set-auto-mode-1 (fnc &rest args)
-  "Advice around function `set-auto-mode-1'.
+  "Advice around the function `set-auto-mode-1'.
 
 Arguments FNC and ARGS are used to call original operations."
   (when guard-lf--detect-large-file
     (setq guard-lf--detect-large-file nil)  ; Revert back to `nil'
     (when (and guard-lf-major-mode
-               (not (memq (nth 0 args) guard-lf-intact-major-modes)))
-      (message "[INFO] Large file detected; use the `%s' as the new major mode" guard-lf-major-mode)
+               (not (provided-mode-derived-p (nth 0 args) guard-lf-intact-major-modes)))
+      (message "[INFO] Large file detected; use the `%s' as the new major mode"
+               guard-lf-major-mode)
       (setf (nth 0 args) guard-lf-major-mode)))
   (apply fnc args))
 
