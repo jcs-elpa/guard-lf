@@ -77,21 +77,25 @@
 
 (defun guard-lf--file-size (filename)
   "Return the FILENAME size."
-  (let ((attributes (file-attributes filename)))
+  (when-let (((file-readable-p filename))
+             (attributes (file-attributes filename)))
     (file-attribute-size attributes)))
 
 (defun guard-lf--file-too-large-p (filename)
   "Return non-nil if FILENAME's size is too large."
-  (> (guard-lf--file-size filename) large-file-warning-threshold))
+  (when-let ((size (guard-lf--file-size filename)))
+    (and large-file-warning-threshold
+         (> size large-file-warning-threshold))))
 
 ;;
 ;;; So long
 
 (defun guard-lf--line-too-long-p (filename)
   "Return non-nil if FILENAME's line is too long."
-  (with-temp-buffer
-    (insert-file-contents filename)
-    (funcall so-long-predicate)))
+  (when (file-readable-p filename)
+    (with-temp-buffer
+      (insert-file-contents filename)
+      (funcall so-long-predicate))))
 
 ;;
 ;;; API
