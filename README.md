@@ -6,6 +6,14 @@ Guard large files
 
 [![CI](https://github.com/jcs-elpa/guard-lf/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/guard-lf/actions/workflows/test.yml)
 
+This is an alternative to Emacs built-in [so-long][].
+
+The [so-long][] package will first enter the major mode and then disable all
+minor modes of your choice. But sometimes, the file is too large, and you
+cannot even exit the event loop. This package takes another approach. It
+prevents you from entering major mode and simply directs you to the basic
+`fundamental-mode`.
+
 ## 🔨 Usage
 
 Place the following snippet to your `init.el` file:
@@ -85,3 +93,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 See [`LICENSE`](./LICENSE) for details.
+
+
+<!-- Links -->
+
+[so-long]: https://www.emacswiki.org/emacs/SoLong
