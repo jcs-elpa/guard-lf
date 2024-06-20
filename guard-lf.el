@@ -55,12 +55,12 @@
 (defun guard-lf--enable ()
   "Enable `guard-lf-mode'."
   (advice-add 'find-file-noselect :around #'guard-lf--find-file)
-  (advice-add 'set-auto-mode-1 :around #'guard-lf--set-auto-mode-1))
+  (advice-add 'set-auto-mode-0 :around #'guard-lf--set-auto-mode-0))
 
 (defun guard-lf--disable ()
   "Disable `guard-lf-mode'."
   (advice-remove 'find-file-noselect #'guard-lf--find-file)
-  (advice-remove 'set-auto-mode-1 #'guard-lf--set-auto-mode-1))
+  (advice-remove 'set-auto-mode-0 #'guard-lf--set-auto-mode-0))
 
 ;;;###autoload
 (define-minor-mode guard-lf-mode
@@ -120,8 +120,8 @@ Arguments FNC and ARGS are used to call original operations."
          (guard-lf--detect-large-file (guard-lf-p filename)))
     (apply fnc args)))
 
-(defun guard-lf--set-auto-mode-1 (fnc &rest args)
-  "Advice around the function `set-auto-mode-1'.
+(defun guard-lf--set-auto-mode-0 (fnc &rest args)
+  "Advice around the function `set-auto-mode-0'.
 
 Arguments FNC and ARGS are used to call original operations."
   (when guard-lf--detect-large-file
