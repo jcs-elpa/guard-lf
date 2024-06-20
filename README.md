@@ -2,7 +2,7 @@
 [![JCS-ELPA](https://raw.githubusercontent.com/jcs-emacs/badges/master/elpa/v/guard-lf.svg)](https://jcs-emacs.github.io/jcs-elpa/#/guard-lf)
 
 # guard-lf
-Guard large files
+> Guard large files
 
 [![CI](https://github.com/jcs-elpa/guard-lf/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/guard-lf/actions/workflows/test.yml)
 
