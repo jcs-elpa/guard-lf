@@ -130,7 +130,7 @@ Arguments FNC and ARGS are used to call original operations."
                (not (apply #'provided-mode-derived-p (cons (car args) guard-lf-intact-major-modes))))
       (message "[INFO] Large file detected; use the `%s' as the new major mode"
                guard-lf-major-mode)
-      (setf (nth 0 args) guard-lf-major-mode)))
+      (setcar args guard-lf-major-mode)))
   (apply fnc args))
 
 (provide 'guard-lf)
