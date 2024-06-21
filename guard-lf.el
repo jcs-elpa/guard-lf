@@ -127,10 +127,10 @@ Arguments FNC and ARGS are used to call original operations."
   (when guard-lf--detect-large-file
     (setq guard-lf--detect-large-file nil)  ; Revert back to `nil'
     (when (and guard-lf-major-mode
-               (not (provided-mode-derived-p (nth 0 args) guard-lf-intact-major-modes)))
+               (not (apply #'provided-mode-derived-p (cons (car args) guard-lf-intact-major-modes))))
       (message "[INFO] Large file detected; use the `%s' as the new major mode"
                guard-lf-major-mode)
-      (setf (nth 0 args) guard-lf-major-mode)))
+      (setcar args guard-lf-major-mode)))
   (apply fnc args))
 
 (provide 'guard-lf)
