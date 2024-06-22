@@ -103,8 +103,9 @@
 ;;;###autoload
 (defun guard-lf-p (filename)
   "Return non-nil if the large FILENAME is detected."
-  (or (guard-lf--file-too-large-p filename)
-      (guard-lf--line-too-long-p filename)))
+  (and (file-regular-p filename)
+       (or (guard-lf--file-too-large-p filename)
+           (guard-lf--line-too-long-p filename))))
 
 ;;
 ;;; Core
