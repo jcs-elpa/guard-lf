@@ -87,6 +87,11 @@
     (and large-file-warning-threshold
          (> size large-file-warning-threshold))))
 
+(defun guard-lf--buffer-too-large-p (buffer)
+  "Return non-nil if BUFFER's size is too large."
+  (and large-file-warning-threshold
+       (> (buffer-size buffer) large-file-warning-threshold)))
+
 ;;
 ;;; So long
 
@@ -101,11 +106,18 @@
 ;;; API
 
 ;;;###autoload
-(defun guard-lf-p (filename)
+(defun guard-lf-file-p (&optional filename)
   "Return non-nil if the large FILENAME is detected."
-  (and (file-regular-p filename)
-       (or (guard-lf--file-too-large-p filename)
-           (guard-lf--line-too-long-p filename))))
+  (when-let ((filename (or filename (buffer-file-name))))
+    (and (file-regular-p filename)
+         (or (guard-lf--file-too-large-p filename)
+             (guard-lf--line-too-long-p filename)))))
+
+;;;###autoload
+(defun guard-lf-buffer-p (&optional buffer)
+  "Return non-nil if the BUFFER is large."
+  (when-let ((buffer (or buffer (current-buffer))))
+    (guard-lf--buffer-too-large-p buffer)))
 
 ;;
 ;;; Core
@@ -125,8 +137,7 @@ Arguments FNC and ARGS are used to call original operations."
   "Advice around the function `set-auto-mode-0'.
 
 Arguments FNC and ARGS are used to call original operations."
-  (when guard-lf--detect-large-file
-    (setq guard-lf--detect-large-file nil)  ; Revert back to `nil'
+  (when (or (guard-lf-file-p) (guard-lf-buffer-p))
     (when (and guard-lf-major-mode
                (not (apply #'provided-mode-derived-p (cons (car args) guard-lf-intact-major-modes))))
       (message "[INFO] Large file detected; use the `%s' as the new major mode"
