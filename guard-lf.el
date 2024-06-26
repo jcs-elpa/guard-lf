@@ -52,36 +52,26 @@
 ;;
 ;;; Entry
 
-(defun guard-lf--enable ()
-  "Enable `guard-lf-mode'."
-  (advice-add 'set-auto-mode-0 :around #'guard-lf--set-auto-mode-0))
-
-(defun guard-lf--disable ()
-  "Disable `guard-lf-mode'."
-  (advice-remove 'set-auto-mode-0 #'guard-lf--set-auto-mode-0))
-
 ;;;###autoload
 (define-minor-mode guard-lf-mode
   "Minor mode `guard-lf-mode'."
   :lighter " Guard-LF"
   :global t
   :group 'guard-lf
-  (if guard-lf-mode (guard-lf--enable) (guard-lf--disable)))
+  (if guard-lf-mode
+      (advice-add 'set-auto-mode-0 :around #'guard-lf--set-auto-mode-0)
+    (advice-remove 'set-auto-mode-0 #'guard-lf--set-auto-mode-0)))
 
 ;;
 ;;; Large File
 
 ;; NOTE: This section is copied around variable `large-file-warning-threshold'.
 
-(defun guard-lf--file-size (filename)
-  "Return the FILENAME size."
-  (when-let (((file-readable-p filename))
-             (attributes (file-attributes filename)))
-    (file-attribute-size attributes)))
-
 (defun guard-lf--file-too-large-p (filename)
   "Return non-nil if FILENAME's size is too large."
-  (when-let ((size (guard-lf--file-size filename)))
+  (when-let (((file-readable-p filename))
+             (attributes (file-attributes filename))
+             (size (file-attribute-size attributes)))
     (and large-file-warning-threshold
          (> size large-file-warning-threshold))))
 
