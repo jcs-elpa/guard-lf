@@ -54,12 +54,10 @@
 
 (defun guard-lf--enable ()
   "Enable `guard-lf-mode'."
-  (advice-add 'find-file-noselect :around #'guard-lf--find-file)
   (advice-add 'set-auto-mode-0 :around #'guard-lf--set-auto-mode-0))
 
 (defun guard-lf--disable ()
   "Disable `guard-lf-mode'."
-  (advice-remove 'find-file-noselect #'guard-lf--find-file)
   (advice-remove 'set-auto-mode-0 #'guard-lf--set-auto-mode-0))
 
 ;;;###autoload
@@ -95,11 +93,10 @@
 ;;
 ;;; So long
 
-(defun guard-lf--line-too-long-p (filename)
-  "Return non-nil if FILENAME's line is too long."
-  (when (file-readable-p filename)
-    (with-temp-buffer
-      (insert-file-contents filename)
+(defun guard-lf--line-too-long-p (buffer)
+  "Return non-nil if BUFFER's line is too long."
+  (save-excursion
+    (with-current-buffer buffer
       (funcall so-long-predicate))))
 
 ;;
@@ -110,28 +107,17 @@
   "Return non-nil if the large FILENAME is detected."
   (when-let ((filename (or filename (buffer-file-name))))
     (and (file-regular-p filename)
-         (or (guard-lf--file-too-large-p filename)
-             (guard-lf--line-too-long-p filename)))))
+         (guard-lf--file-too-large-p filename))))
 
 ;;;###autoload
 (defun guard-lf-buffer-p (&optional buffer)
   "Return non-nil if the BUFFER is large."
   (when-let ((buffer (or buffer (current-buffer))))
-    (guard-lf--buffer-too-large-p buffer)))
+    (or (guard-lf--buffer-too-large-p buffer)
+        (guard-lf--line-too-long-p buffer))))
 
 ;;
 ;;; Core
-
-(defvar guard-lf--detect-large-file nil
-  "Set to t if larget file.")
-
-(defun guard-lf--find-file (fnc &rest args)
-  "Advice around the function `find-file-noselect'.
-
-Arguments FNC and ARGS are used to call original operations."
-  (let* ((filename (car args))
-         (guard-lf--detect-large-file (guard-lf-p filename)))
-    (apply fnc args)))
 
 (defun guard-lf--set-auto-mode-0 (fnc &rest args)
   "Advice around the function `set-auto-mode-0'.
