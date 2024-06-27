@@ -98,8 +98,8 @@
   "Advice around the function `set-auto-mode-0'.
 
 Arguments FNC and ARGS are used to call original operations."
-  (when (and (guard-lf-p)
-             guard-lf-major-mode
+  (when (and guard-lf-major-mode
+             (guard-lf-p)
              (not (apply #'provided-mode-derived-p
                          (cons (car args)
                                guard-lf-intact-major-modes))))
