@@ -22,6 +22,13 @@ Place the following snippet to your `init.el` file:
 (guard-lf-mode 1)
 ```
 
+## 🔧 Customization
+
+### 🧪 Variables
+
+- `guard-lf-major-mode` - Major mode to use when viewing large file. (Default: `#'fundamental-mode`)
+- `guard-lf-intact-major-modes` - Do nothing for these major modes.
+
 ## 🛠️ Contribute
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
@@ -33,7 +40,6 @@ If you would like to contribute to this project, you may either
 clone and make pull requests to this repository. Or you can
 clone the project and establish your own branch of this tool.
 Any methods are welcome!
-
 
 ### 🔬 Development
 
