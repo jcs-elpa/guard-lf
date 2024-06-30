@@ -44,10 +44,12 @@
   :type 'function
   :group 'guard-lf)
 
-(defconst guard-lf-intact-major-modes
+(defcustom guard-lf-intact-major-modes
   '( fundamental-mode         ; Already in `fundamental-mode'? Ignore it!
      special-mode)
-  "Do nothing for these major modes.")
+  "Do nothing for these major modes."
+  :type 'list
+  :group 'guard-lf)
 
 ;;
 ;;; Entry
