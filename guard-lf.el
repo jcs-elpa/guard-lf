@@ -45,10 +45,15 @@
   :group 'guard-lf)
 
 (defcustom guard-lf-intact-major-modes
-  '( fundamental-mode         ; Already in `fundamental-mode'? Ignore it!
-     special-mode)
+  '(fundamental-mode ; Already in `fundamental-mode'? Ignore it!
+    special-mode
+    archive-mode
+    tar-mode
+    image-mode
+    vlf-mode
+    pcap-mode)
   "Do nothing for these major modes."
-  :type 'list
+  :type '(repeat symbol)
   :group 'guard-lf)
 
 ;;
