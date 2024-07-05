@@ -105,15 +105,18 @@
   "Advice around the function `set-auto-mode-0'.
 
 Arguments FNC and ARGS are used to call original operations."
-  (when (and guard-lf-major-mode
-             (guard-lf-p)
-             (not (apply #'provided-mode-derived-p
-                         (cons (car args)
-                               guard-lf-intact-major-modes))))
-    (message "[INFO] Large file detected; use the `%s' as the new major mode"
-             guard-lf-major-mode)
-    (setcar args guard-lf-major-mode))
-  (apply fnc args))
+  (let ((mode (car args)))
+    (when (and guard-lf-major-mode
+               mode ; nil can be passed for some special modes like `tar-mode'
+               (guard-lf-p)
+               (not (apply #'provided-mode-derived-p
+                           (cons mode
+                                 guard-lf-intact-major-modes))))
+      (message "[guard-lf] Large file detected; using `%s' as major mode instead of `%s'"
+               guard-lf-major-mode mode)
+      (setcar args guard-lf-major-mode))
+    (apply fnc args)))
+
 
 (provide 'guard-lf)
 ;;; guard-lf.el ends here
