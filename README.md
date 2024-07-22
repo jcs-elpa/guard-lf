@@ -9,10 +9,11 @@
 This is an alternative to Emacs built-in [so-long][].
 
 The [so-long][] package will first enter the major mode and then disable all
-minor modes of your choice. But sometimes, the file is too large, and you
-cannot even exit the event loop. This package takes another approach. It
-prevents you from entering major mode and simply directs you to the basic
-`fundamental-mode`.
+minor modes of your choice. But sometimes, the file is too large, and you cannot
+even exit the event loop. This package takes another approach. It prevents you
+from entering major mode and simply directs you to the mode configured in
+`guard-lf-major-mode` (by default, this is set to `guard-lf-major-mode` which is
+basically the same as `fundamental-mode`).
 
 ## 🔨 Usage
 
@@ -26,7 +27,7 @@ Place the following snippet to your `init.el` file:
 
 ### 🧪 Variables
 
-- `guard-lf-major-mode` - Major mode to use when viewing large file. (Default: `#'fundamental-mode`)
+- `guard-lf-major-mode` - Major mode to use when viewing large file. (Default: `guard-lf-large-file-mode`)
 - `guard-lf-intact-major-modes` - Do nothing for these major modes.
 
 ## 🛠️ Contribute
