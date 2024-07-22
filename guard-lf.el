@@ -39,7 +39,7 @@
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/guard-lf"))
 
-(defcustom guard-lf-major-mode #'fundamental-mode
+(defcustom guard-lf-major-mode #'guard-lf-large-file-mode
   "Major mode to use when viewing large file."
   :type 'function
   :group 'guard-lf)
@@ -68,6 +68,10 @@
   (if guard-lf-mode
       (advice-add 'set-auto-mode-0 :around #'guard-lf--set-auto-mode-0)
     (advice-remove 'set-auto-mode-0 #'guard-lf--set-auto-mode-0)))
+
+;; This major mode is basically the same as `fundamental-mode'. It helps users
+;; to distinguish if buffer mode has been set by `guard-lf' or not
+(define-derived-mode guard-lf-large-file-mode fundamental-mode "guard-lf")
 
 ;;
 ;;; Large File
@@ -108,10 +112,10 @@ Arguments FNC and ARGS are used to call original operations."
   (let ((mode (car args)))
     (when (and guard-lf-major-mode
                mode ; nil can be passed for some special modes like `tar-mode'
-               (guard-lf-p)
                (not (apply #'provided-mode-derived-p
-                           (cons mode
-                                 guard-lf-intact-major-modes))))
+                           (append (list mode guard-lf-major-mode)
+                                   guard-lf-intact-major-modes)))
+               (guard-lf-p))
       (message "[guard-lf] Large file detected; using `%s' as major mode instead of `%s'"
                guard-lf-major-mode mode)
       (setcar args guard-lf-major-mode))
