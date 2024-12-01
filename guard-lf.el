@@ -31,7 +31,7 @@
 
 ;;; Code:
 
-(require 'so-long)
+(eval-when-compile (require 'so-long))
 
 (defgroup guard-lf nil
   "Guard large files."
@@ -88,6 +88,7 @@
 
 (defun guard-lf--line-too-long-p (buffer)
   "Return non-nil if BUFFER's line is too long."
+  (require 'so-long)
   (save-excursion
     (with-current-buffer buffer
       (funcall so-long-predicate))))
