@@ -31,6 +31,8 @@
 
 ;;; Code:
 
+(eval-when-compile (require 'so-long))
+
 (defgroup guard-lf nil
   "Guard large files."
   :prefix "guard-lf-"
