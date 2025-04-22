@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "guard-lf"
          "0.1.0"
          "Guard large files")
