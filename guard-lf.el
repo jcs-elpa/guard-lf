@@ -99,7 +99,7 @@
 ;;;###autoload
 (defun guard-lf-p (&optional buffer)
   "Return non-nil if the BUFFER is large."
-  (when-let ((buffer (or buffer (current-buffer))))
+  (when-let* ((buffer (or buffer (current-buffer))))
     (or (guard-lf--buffer-too-large-p buffer)
         (guard-lf--line-too-long-p buffer))))
 
