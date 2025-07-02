@@ -50,8 +50,12 @@
     archive-mode
     tar-mode
     image-mode
+    hexl-mode
     vlf-mode
-    pcap-mode)
+    pcap-mode
+    pdf-view-mode
+    rosbag-info-mode
+    ein:ipynb-mode)
   "Do nothing for these major modes."
   :type '(repeat symbol)
   :group 'guard-lf)
