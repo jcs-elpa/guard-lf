@@ -8,7 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## 0.1.1 (Unreleased)
 > Released N/A
 
-* fix: Handle file not exist error (15f9c3f6a0c9f6b846e236e5fcc61444f39d82d9)
+* fix: Handle file not exist error ([`15f9c3f`](../../commit/15f9c3f6a0c9f6b846e236e5fcc61444f39d82d9))
 
 ## 0.1.0
 > Released Mar 27, 2024
