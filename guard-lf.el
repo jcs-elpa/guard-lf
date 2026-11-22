@@ -54,6 +54,7 @@
     vlf-mode
     pcap-mode
     pdf-view-mode
+    emureader-mode
     rosbag-info-mode
     ein:ipynb-mode)
   "Do nothing for these major modes."
